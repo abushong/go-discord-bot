@@ -81,10 +81,18 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		s.ChannelMessageSend(m.ChannelID, "fard")
 	}
 
-	if m.Content == "wzrd start" {
-		s.ChannelMessageSend(m.ChannelID, "Welcome you little wizards and wizardesses! \n "+
-			"First things first, you are straight up just a turkey right now. \n"+
-			"If you are able to return to your true form then you can cast spells and shit. \n"+
-			"Here are some commands to get you started: \n"+turkeyCommands)
+	if strings.HasPrefix(m.Content, "wzrd") {
+		s.ChannelMessageSend(m.ChannelID, wzrdMsgHandler(m.Content))
 	}
+}
+
+func wzrdMsgHandler(msg string) string {
+	if strings.HasPrefix(msg, "wzrd start") {
+		return "Welcome you little wizards and wizardesses! \n " +
+			"First things first, you are straight up just a turkey right now. \n" +
+			"If you are able to return to your true form then you can cast spells and shit. \n" +
+			"Here are some commands to get you started: \n" + turkeyCommands
+	}
+
+	return "Invalid wzrd command. Do better plz"
 }
