@@ -1,6 +1,9 @@
 # Go Discord Bot
 This is a little project to practice golang and make a discord bot
 
+farts
+more farts
+
 ## Project setup
 From inside the project directory run this to install all required modules
 ```
