@@ -64,6 +64,9 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	// Ignore all messages created by the bot itself
 	if m.Author.ID == s.State.User.ID {
 		return
+	} else {
+		fmt.Println("Message info: ", m.Author.ID)
+		fmt.Println("Message info: ", m.Author.Username)
 	}
 
 	if strings.Contains(m.Content, "nut") {
@@ -82,18 +85,23 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.HasPrefix(m.Content, "wzrd") {
-		s.ChannelMessageSend(m.ChannelID, wzrdMsgHandler(strings.TrimSpace(m.Content)))
+		// s.ChannelMessageSend(m.ChannelID, wzrdMsgHandler(strings.TrimSpace(m.Content)))
+		s.ChannelMessageSend(m.ChannelID, wzrdMsgHandler(m, s))
 	}
 }
 
-func wzrdMsgHandler(msg string) string {
+func wzrdMsgHandler(m *discordgo.MessageCreate, s *discordgo.Session) string {
+
+	var msg = strings.TrimSpace(m.Content)
 
 	switch msg {
 	case "wzrd start":
+		fmt.Println("the guild id: ", m.GuildID)
+		createPlayers(m.GuildID, s)
 		return "Welcome you little wizards and wizardesses! \n " +
 			"First things first, you are straight up just a turkey right now. \n" +
 			"If you are able to return to your true form then you can cast spells and shit. \n" +
-			"Here are some commands to get you started: \n" + turkeyCommands
+			"Here are some commands to get you started: \n\n" + turkeyCommands
 	case "wzrd gobble":
 		return "You emit a creepy little gobble. You little freak. Slutty little turkey"
 	case "wzrd peck":
@@ -102,12 +110,15 @@ func wzrdMsgHandler(msg string) string {
 		return "Invalid wzrd command. Do better plz"
 	}
 
-	// if strings.HasPrefix(msg, "wzrd start") {
-	// 	return "Welcome you little wizards and wizardesses! \n " +
-	// 		"First things first, you are straight up just a turkey right now. \n" +
-	// 		"If you are able to return to your true form then you can cast spells and shit. \n" +
-	// 		"Here are some commands to get you started: \n" + turkeyCommands
-	// }
+}
 
-	// return "Invalid wzrd command. Do better plz"
+func createPlayers(guildId string, s *discordgo.Session) {
+	// fmt.Println("I need to create characters for these fools ", s.GuildMembers(guildId))
+	// var guildMembers = s.GuildMembers(guildId, "", 100)
+	guildMembers, err := s.GuildMembers(guildId, "", 100)
+	if err != nil {
+		fmt.Println("error getting guild memebers,", err)
+		return
+	}
+	fmt.Println("Guild Members: ", guildMembers)
 }
