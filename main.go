@@ -121,4 +121,16 @@ func createPlayers(guildId string, s *discordgo.Session) {
 		return
 	}
 	fmt.Println("Guild Members: ", guildMembers)
+	for i, mem := range guildMembers {
+		fmt.Println(i, mem)
+		// TODO create all the users in the data store. add any info necessary
+		// wat da heck is mongo?
+
+		// I don't think we need this junk but it is a helpful example
+		// userInfo, err := s.User(mem.User.ID)
+		// if err != nil {
+		// 	fmt.Println("error getting user info", err)
+		// }
+		// fmt.Println(userInfo)
+	}
 }
