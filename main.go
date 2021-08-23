@@ -1,14 +1,20 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // Variables used for command line parameters
@@ -26,6 +32,21 @@ func init() {
 }
 
 func main() {
+
+	dbUser := os.Getenv("WZRD_DB_USER")
+	dbPass := os.Getenv("WZRD_DB_PASS")
+	dbTable := os.Getenv("WZRD_DB_TABLE")
+	connectionString := fmt.Sprintf("mongodb+srv://%s:%s@cluster0.oqon8.mongodb.net/%s?retryWrites=true&w=majority", dbUser, dbPass, dbTable)
+	client, err := mongo.NewClient(options.Client().ApplyURI(connectionString))
+	if err != nil {
+		log.Fatal(err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	err = client.Connect(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Create a new Discord session using the provied bot token
 	dg, err := discordgo.New("Bot " + Token)
