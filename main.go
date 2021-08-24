@@ -35,8 +35,8 @@ func main() {
 
 	dbUser := os.Getenv("WZRD_DB_USER")
 	dbPass := os.Getenv("WZRD_DB_PASS")
-	dbTable := os.Getenv("WZRD_DB_TABLE")
-	connectionString := fmt.Sprintf("mongodb+srv://%s:%s@cluster0.oqon8.mongodb.net/%s?retryWrites=true&w=majority", dbUser, dbPass, dbTable)
+	connectionString := fmt.Sprintf("mongodb+srv://%s:%s@cluster0.oqon8.mongodb.net/WzrdBot?retryWrites=true&w=majority", dbUser, dbPass, dbTable)
+	"mongodb+srv://oligarch:<password>@cluster0.oqon8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 	client, err := mongo.NewClient(options.Client().ApplyURI(connectionString))
 	if err != nil {
 		log.Fatal(err)

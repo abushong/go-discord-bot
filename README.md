@@ -12,9 +12,8 @@ go build
 ```
 Need to set the DB config variables as env vars
 ```
-export WZRD_DB_USER=
-export WZRD_DB_PASS=
-export WZRD_DB_TABLE=
+export WZRD_DB_USER=<ask alex>
+export WZRD_DB_PASS=<ask alex>
 ```
 
 ### Run the server
